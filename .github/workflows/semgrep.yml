@@ -7,9 +7,6 @@ on:
     - master
     paths:
     - .github/workflows/semgrep.yml
-  schedule:
-  # random HH:MM to avoid a load spike on GitHub Actions at 00:00
-  - cron: 20 10 * * *
 name: Semgrep
 jobs:
   semgrep:
@@ -23,4 +20,12 @@ jobs:
       image: semgrep/semgrep
     steps:
     - uses: actions/checkout@v4
+    - name: Set up JDK 21 (Temurin)
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+    - name: build deptree
+      run: |
+        ./mvnw dependency:tree -DoutputFile=maven_dep_tree.txt
     - run: semgrep ci
