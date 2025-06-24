@@ -40,4 +40,4 @@ jobs:
           ./mvnw dependency:tree -DoutputFile=maven_dep_tree.txt
       - name: semgrep scan
         run: |
-          docker run --rm -e "SEMGREP_APP_TOKEN=${{ secrets.SEMGREP_APP_TOKEN }}" -v "$(pwd)":/src semgrep/semgrep semgrep scan
+          docker run --rm -e "SEMGREP_APP_TOKEN=${{ secrets.SEMGREP_APP_TOKEN }}" -e "SEMGREP_REPO_NAME=kccli" -v "$(pwd)":/src semgrep/semgrep semgrep scan --supply-chain
